@@ -19,12 +19,20 @@ const options = {
     } else {
       startBtn.removeAttribute('disabled');
       startBtn.addEventListener('click', () => {
-        convertMs(selectedDates[0] - today);
+        startBtn.setAttribute('disabled', '');
+        let timeDifference = selectedDates[0] - today;
+        const counterID = setInterval(() => {
+          convertMs(timeDifference);
+          console.log(counter);
+          timeDifference -= 1000;
+          if (timeDifference <= 0) {
+            clearInterval(counterID);
+          }
+        }, 1000);
         /* daysCounterEl.textContent = counter.days;
         hoursCounterEl.textContent = counter.hours;
         minutesCounterEl.textContent = counter.minutes;
         secondsCounterEl.textContent = counter.seconds; */
-        console.log(counter);
       });
     }
   },
@@ -33,19 +41,14 @@ const options = {
 const datetimePicker = flatpickr('#datetime-picker', options);
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   counter = { days, hours, minutes, seconds };
