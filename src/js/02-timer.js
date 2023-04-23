@@ -60,6 +60,7 @@ const options = {
 
           if (timeDifference <= 0) {
             clearInterval(counterID);
+            Notify.success('The countdown is over. Thank you and try again!');
           }
         }, 1000);
       });
